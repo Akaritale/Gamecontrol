@@ -1,0 +1,36 @@
+#!/bin/bash
+
+COMPOSER_BIN=`env composer`
+PHP_BIN=`env php`
+
+if [[ php --version; ${?} -gt 0 ]]; then
+    echo "Missing php binary."
+    exit 1
+fi
+
+if [[ ! -d "vendor" ]]; then
+    echo "Missing vendor directory..."
+
+    if [[ composer --version; ${?} -eq 0 ]]; then
+        echo "Composer has been found, do you want to install dependencies? [y/N]"
+
+        read -n install_deps
+        if [[ install_deps -eq "y" ]]; then 
+            COMPOSER_BIN install --no-interaction --no-dev 
+
+            if [[ ${?} -eq 0 ]]; then
+                echo "Setup successfull, you can now use gctl!"
+            else
+                echo "Installation failed, check logs above!"
+                exit 1
+            fi
+
+        else
+            echo "Abborting!"
+            exit 1
+        fi
+    fi
+fi
+
+# Run application
+PHP_BIN -f cli.php $*

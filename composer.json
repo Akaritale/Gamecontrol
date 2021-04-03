@@ -1,0 +1,14 @@
+{
+    "name": "gameserver/gctl",
+    "description": "Control panel to execute basic actions to like start/stop/status",
+    "type": "project",
+    "require": {
+        "symfony/console": "^5.2"
+    },
+    "authors": [
+        {
+            "name": "Padrio",
+            "email": "pascal@metin2.wtf"
+        }
+    ]
+}

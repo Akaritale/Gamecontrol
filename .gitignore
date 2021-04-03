@@ -1,0 +1,6 @@
+# IDE Settings
+/.idea
+/.vs
+
+# Project dependencies
+/vendor
