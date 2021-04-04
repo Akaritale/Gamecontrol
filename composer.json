@@ -3,7 +3,10 @@
     "description": "Control panel to execute basic actions to like start/stop/status",
     "type": "project",
     "require": {
-        "symfony/console": "^5.2"
+        "symfony/console": "^5.2",
+        "symfony/process": "^5.2",
+        "ext-posix": "*",
+        "symfony/lock": "^5.2"
     },
     "autoload": {
         "psr-4": {
