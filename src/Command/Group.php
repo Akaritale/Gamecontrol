@@ -27,10 +27,8 @@ final class Group extends Command
                 ['minimal', 'DB/Auth'],
                 ['channel', 'CH99/CH1/CH2/CH3/CH4'],
                 ['all', 'DB/Auth/CH99/CH1/CH2/CH3/CH4'],
-            ])
-        ;
-        $table->render();
-        
+            ])->render();
+
         return 0;
     }
 }

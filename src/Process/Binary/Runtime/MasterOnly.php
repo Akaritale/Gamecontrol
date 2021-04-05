@@ -3,6 +3,7 @@
 namespace GCTL\Process\Binary\Runtime;
 
 use GCTL\Process\BinaryLocator;
+use GCTL\Process\Exception\ProcessIdentifierMissing;
 use GCTL\Process\StatusEnum;
 use GCTL\Process\vRunner\Manage;
 use Symfony\Component\Process\Process;
@@ -54,20 +55,20 @@ abstract class MasterOnly extends Process
         return parent::fromShellCommandline("./{$command}", static::getWorkspace(), $env, $input, $timeout);
     }
 
-    public static function fetchPid(): ?int
+    public static function fetchPid(): int
     {
         $file = static::getWorkspace() . DIRECTORY_SEPARATOR . static::getExecutable() . '.pid';
-        if(file_exists($file)) {
-            return (int)file_get_contents($file);
+        if (!file_exists($file)) {
+            throw ProcessIdentifierMissing::fromMissingFile($file, self::class);
         }
 
-        return false;
+        return (int)file_get_contents($file);
     }
 
     public static function ProcessStatus(): string
     {
         $pid = self::fetchPid();
-        if($pid === false) {
+        if (!$pid) {
             return StatusEnum::UNKNOWN;
         }
 

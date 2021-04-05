@@ -9,11 +9,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class Shutdown extends Command
+final class Start extends Command
 {
     use LockableTrait;
 
-    protected static $defaultName = 'shutdown';
+    protected static $defaultName = 'start';
 
     protected function configure(): void
     {
@@ -22,7 +22,7 @@ final class Shutdown extends Command
         $this->addOption('force', null, InputArgument::OPTIONAL, 'Force server to stop by killing process with SIGID 9.', false);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
@@ -40,7 +40,6 @@ final class Shutdown extends Command
         }
 
         $this->release();
-
         return Command::SUCCESS;
     }
 }
