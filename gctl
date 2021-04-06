@@ -1,7 +1,8 @@
 #!/bin/bash
 
-if [[ $(which php) && ${?} -gt 0 ]]; then
-    echo "Could not find php binary."
+PHP_BIN=$(which php)
+if [[ ${?} -gt 0 ]]; then
+    echo "Could not find php binary"
     exit 1
 fi
 
@@ -13,12 +14,13 @@ if [[ ! -d "vendor" ]]; then
       [Nn]* ) exit 1;;
     esac
 
-    if [[ $(which composer) && ${?} -gt 0 ]]; then
+    COMPOSER_BIN=$(which composer)
+    if [[ ${?} -gt 0 ]]; then
       echo "Tried to solve this problem but composer binary could not be located, exiting."
       exit 1
     fi
 
-    if [[ $(composer install --no-interaction --no-dev) -eq 0 ]]; then
+    if [[ $($COMPOSER_BIN install --no-interaction --no-dev) -eq 0 ]]; then
       echo "Setup successful, please run gctl again"
     else
       echo "Installation failed, check logs above!"
@@ -27,4 +29,4 @@ if [[ ! -d "vendor" ]]; then
 fi
 
 # Run application
-php -f cli.php "$@"
+$PHP_BIN -f cli.php "$@"
